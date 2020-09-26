@@ -1,0 +1,252 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0",
+    "importType": "LEX",
+    "importFormat": "JSON"
+  },
+  "resource": {
+    "name": "TetoBot",
+    "version": "2",
+    "intents": [
+      {
+        "name": "Doar",
+        "version": "9",
+        "fulfillmentActivity": {
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:176331078863:function:doar",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
+        },
+        "sampleUtterances": [
+          "Olá",
+          "Oi",
+          "Eu gostaria de fazer uma doação"
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "confirmation",
+            "slotTypeVersion": "1",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Deseja concluir sua doação?"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"buttons\":[{\"text\":\"Sim\",\"value\":\"yes\"},{\"text\":\"Não\",\"value\":\"no\"}]}]}",
+              "maxAttempts": 2
+            },
+            "priority": 9,
+            "name": "Confirmacao"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.AlphaNumeric",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Está acabando... Qual seu CPF?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 7,
+            "name": "CPF"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.EmailAddress",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "E qual seu e-mail?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 4,
+            "name": "Email"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.US_FIRST_NAME",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Agradecemos desde já! Certamente sua doação fará a diferença. Conte-me um pouco mais sobre você, por favor. Qual seu nome?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "Nome"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "regularidade",
+            "slotTypeVersion": "1",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Olá! Ficamos muito felizes com sua solidariedade. Qual a regularidade com que deseja doar?"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"title\":\"\",\"buttons\":[{\"text\":\"Única\",\"value\":\"unica\"},{\"text\":\"Mensal\",\"value\":\"mensal\"},{\"text\":\"Anual\",\"value\":\"anual\"}]}]}",
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "Regularidade"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.Genre",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "E sua sua data de nascimento?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 6,
+            "name": "Sexo"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.PhoneNumber",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Qual seu número de telefone, por favor?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 5,
+            "name": "Telefone"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.NUMBER",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Certo! Qual valor deseja doar?"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "Valor"
+          }
+        ]
+      }
+    ],
+    "slotTypes": [
+      {
+        "description": "Regularidade da doação: única, mensal ou anual.",
+        "name": "regularidade",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "anual",
+            "synonyms": [
+              "ano"
+            ]
+          },
+          {
+            "value": "unica",
+            "synonyms": [
+              "uma"
+            ]
+          },
+          {
+            "value": "mensal",
+            "synonyms": [
+              "mês"
+            ]
+          }
+        ],
+        "valueSelectionStrategy": "TOP_RESOLUTION"
+      },
+      {
+        "description": "User confirmation to finish the return process",
+        "name": "confirmation",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "no",
+            "synonyms": [
+              "not",
+              "nope",
+              "non",
+              "nay",
+              "negative",
+              "no way"
+            ]
+          },
+          {
+            "value": "yes",
+            "synonyms": [
+              "ok",
+              "yeah",
+              "sure",
+              "yea",
+              "yep",
+              "positive"
+            ]
+          }
+        ],
+        "valueSelectionStrategy": "TOP_RESOLUTION"
+      }
+    ],
+    "voiceId": "Salli",
+    "childDirected": false,
+    "locale": "en-US",
+    "idleSessionTTLInSeconds": 300,
+    "clarificationPrompt": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, can you please repeat that?"
+        }
+      ],
+      "maxAttempts": 5
+    },
+    "abortStatement": {
+      "messages": [
+        {
+          "contentType": "PlainText",
+          "content": "Sorry, I could not understand. Goodbye."
+        }
+      ]
+    },
+    "detectSentiment": true,
+    "enableModelImprovements": true
+  }
+}
